@@ -1,0 +1,117 @@
+LODINPAY PAYMENT GATEWAY - COMPATIBILITY
+
+========================================
+OPENCART VERSIONS
+========================================
+✓ 4.0.0.0
+✓ 4.0.1.0
+✓ 4.0.1.1
+✓ 4.0.2.0
+✓ 4.0.2.1
+✓ 4.0.2.2
+✓ 4.0.2.3
+✓ 4.1.0.0 (and future 4.x versions)
+
+========================================
+PHP VERSIONS
+========================================
+✓ PHP 8.1 (Recommended)
+✓ PHP 8.2
+✓ PHP 8.3
+
+========================================
+DATABASE
+========================================
+✓ MySQL 5.7+
+✓ MySQL 8.0+
+✓ MySQL 8.1+
+✓ MariaDB 10.3+
+
+========================================
+WEB SERVERS
+========================================
+✓ Apache 2.4+ (with mod_rewrite)
+✓ Nginx 1.18+
+✓ LiteSpeed
+
+========================================
+REQUIRED PHP EXTENSIONS
+========================================
+✓ cURL
+✓ JSON
+✓ OpenSSL
+✓ MySQLi or PDO_MySQL
+✓ mbstring
+
+========================================
+HOSTING TYPES
+========================================
+✓ Shared Hosting
+✓ VPS
+✓ Dedicated Servers
+✓ Cloud Hosting (AWS, DigitalOcean, Linode, etc.)
+
+========================================
+TESTED WITH
+========================================
+✓ Default OpenCart theme
+✓ Journal 3 theme
+✓ Most popular third-party themes
+✓ Multi-store configurations
+✓ Multi-language setups
+✓ Multi-currency setups
+
+========================================
+BROWSER COMPATIBILITY
+========================================
+✓ Chrome 90+
+✓ Firefox 88+
+✓ Safari 14+
+✓ Edge 90+
+✓ Opera 76+
+✓ Mobile browsers (iOS Safari, Chrome Mobile, Samsung Internet)
+
+========================================
+NOT COMPATIBLE WITH
+========================================
+✗ OpenCart 2.x or 3.x (use appropriate version)
+✗ PHP 7.4 or lower
+✗ MySQL 5.6 or lower
+✗ HTTP-only sites (HTTPS required for webhooks)
+
+========================================
+MINIMUM REQUIREMENTS
+========================================
+- OpenCart: 4.0.0.0
+- PHP: 8.1
+- MySQL: 5.7
+- HTTPS: Required
+- Disk Space: 5 MB
+- Memory: 128 MB (256 MB recommended)
+
+========================================
+RECOMMENDED CONFIGURATION
+========================================
+- OpenCart: 4.0.2.3 (latest stable)
+- PHP: 8.2
+- MySQL: 8.0
+- Memory: 256 MB
+- SSL: Valid certificate from trusted CA
+
+========================================
+NOTES
+========================================
+- HTTPS is mandatory for webhook functionality
+- cURL must be enabled for API communication
+- OpenSSL required for signature verification
+- Tested on major hosting providers (cPanel, Plesk, DirectAdmin)
+
+========================================
+SUPPORT
+========================================
+Email: support@lodinpay.com
+Documentation: https://docs.lodinpay.com
+Response Time: Within 24 hours
+
+Last Updated: 2024-01-15
+Version: 1.0.0

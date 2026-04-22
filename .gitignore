@@ -1,0 +1,10 @@
+# OpenCart core
+opencart-4.0.2.3/
+*.zip
+
+# Vendor / dependencies
+**/vendor/
+
+# OS / misc
+.DS_Store
+Thumbs.db

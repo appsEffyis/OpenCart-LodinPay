@@ -1,0 +1,48 @@
+<div style="border: 1px solid #e0e0e0; border-radius: 10px; padding: 15px 20px; margin: 10px 0; background: white;">
+    <div style="display: flex; align-items: center; gap: 15px;">
+        <div style="background: #ffffff; border-radius: 50%; width: 48px; height: 48px; min-width: 48px; display: flex; align-items: center; justify-content: center;">
+            <img src="{{ base }}image/lodin/logo_lodin_rm.png" height="30" alt="Lodin"/>
+        </div>
+        <div style="flex: 1;">
+            <strong style="font-size: 15px; display: block;">Pay by Bank</strong>
+            <small style="color: #888;">Deposit directly from your bank app - no card needed</small>
+        </div>
+        <div style="display: flex; align-items: center;">
+            <img src="{{ base }}image/lodin/Banks.png" height="28" alt="Banks"/>
+        </div>
+    </div>
+</div>
+
+<div class="text-end" style="margin-top: 15px;">
+    <button type="button" id="button-lodin-confirm" class="btn btn-primary btn-lg">
+        Confirm Order
+    </button>
+</div>
+
+<script type="text/javascript">
+$(document).on('click', '#button-lodin-confirm', function() {
+    var button = $(this);
+    button.prop('disabled', true).text('Processing...');
+
+    $.ajax({
+        url: 'index.php?route=extension/lodin/payment/lodin|confirm&language=en-gb',
+        type: 'post',
+        dataType: 'json',
+        success: function(json) {
+            console.log('Lodin response:', json);
+            if (json['redirect']) {
+                window.location.href = json['redirect'];
+                return;
+            }
+            if (json['error']) {
+                $('#alert').prepend('<div class="alert alert-danger alert-dismissible"><i class="fas fa-exclamation-circle"></i> ' + json['error'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+                button.prop('disabled', false).text('Confirm Order');
+            }
+        },
+        error: function(xhr) {
+            console.error('Lodin error:', xhr.responseText);
+            button.prop('disabled', false).text('Confirm Order');
+        }
+    });
+});
+</script>

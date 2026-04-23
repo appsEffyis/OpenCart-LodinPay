@@ -3,7 +3,7 @@ namespace Opencart\Catalog\Controller\Extension\Lodin\Payment;
 
 class Lodin extends \Opencart\System\Engine\Controller {
     
-    const RTP_API_URL = 'https://api-preprod.lodinpay.com/merchant-service/extensions/pay/rtp';
+    const RTP_API_URL = 'https://api.lodinpay.com/merchant-service/extensions/pay/rtp';
     
     public function index(): string {
         $this->load->language('extension/lodin/payment/lodin');

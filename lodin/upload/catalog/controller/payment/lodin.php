@@ -12,6 +12,8 @@ class Lodin extends \Opencart\System\Engine\Controller {
         $data['confirm']        = $this->url->link('extension/lodin/payment/lodin.confirm', '', true);
         $data['text_loading'] = $this->language->get('text_loading');
         $data['language'] = $this->config->get('config_language');
+        $data['is_euro']        = $this->isEuroCurrency();
+        $data['error_currency'] = $this->language->get('error_currency');
         return $this->load->view('extension/lodin/payment/lodin', $data);
     }
     
@@ -21,6 +23,12 @@ class Lodin extends \Opencart\System\Engine\Controller {
         
         if (!isset($this->session->data['order_id'])) {
             $json['error'] = $this->language->get('error_order');
+            $this->response->addHeader('Content-Type: application/json');
+            $this->response->setOutput(json_encode($json));
+            return;
+        }
+        if (!$this->isEuroCurrency()) {
+            $json['error'] = $this->language->get('error_currency');
             $this->response->addHeader('Content-Type: application/json');
             $this->response->setOutput(json_encode($json));
             return;
@@ -357,5 +365,10 @@ class Lodin extends \Opencart\System\Engine\Controller {
         // Le paiement n'est pas OK (annulé, échoué ou en attente)
         $this->response->redirect($this->url->link('checkout/failure', '', true));
     }
+}
+private function isEuroCurrency(): bool {
+    $currency_code = $this->session->data['currency'] 
+        ?? $this->config->get('config_currency');
+    return strtoupper((string)$currency_code) === 'EUR';
 }
 }

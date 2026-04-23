@@ -12,3 +12,4 @@ $_['button_confirm'] = 'Confirm Order';
 // Error
 $_['error_order'] = 'Order not found';
 $_['error_payment'] = 'Payment processing error. Please try again.';
+$_['error_currency'] = 'Lodin Pay is only available for EUR currency.';

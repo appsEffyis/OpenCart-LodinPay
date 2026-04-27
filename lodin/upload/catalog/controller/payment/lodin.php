@@ -367,8 +367,9 @@ class Lodin extends \Opencart\System\Engine\Controller {
     }
 }
 private function isEuroCurrency(): bool {
-    $currency_code = $this->session->data['currency'] 
-        ?? $this->config->get('config_currency');
-    return strtoupper((string)$currency_code) === 'EUR';
+    $admin_currency  = strtoupper((string)$this->config->get('config_currency'));
+    $session_currency = strtoupper((string)($this->session->data['currency'] ?? $admin_currency));
+    
+    return $admin_currency === 'EUR' && $session_currency === 'EUR';
 }
 }

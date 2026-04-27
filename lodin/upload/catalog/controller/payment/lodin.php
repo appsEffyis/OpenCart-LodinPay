@@ -3,7 +3,7 @@ namespace Opencart\Catalog\Controller\Extension\Lodin\Payment;
 
 class Lodin extends \Opencart\System\Engine\Controller {
     
-    const RTP_API_URL = 'https://api.lodinpay.com/merchant-service/extensions/pay/rtp';
+    const RTP_API_URL = 'https://api-preprod.lodinpay.com/merchant-service/extensions/pay/rtp';
     
     public function index(): string {
         $this->load->language('extension/lodin/payment/lodin');
@@ -55,6 +55,7 @@ class Lodin extends \Opencart\System\Engine\Controller {
                     false
                 );
                 $json['redirect'] = $payment_link;
+                unset($this->session->data['order_id']);
             } else {
                 throw new \Exception('Failed to generate payment link');
             }
@@ -339,13 +340,12 @@ class Lodin extends \Opencart\System\Engine\Controller {
     }
 
 
-    public function callback_return(): void {
+public function callback_return(): void {
     $this->load->model('checkout/order');
 
     $order_id = (int)$this->request->get['order_id'];
     $order_info = $this->model_checkout_order->getOrder($order_id);
 
-    // 1. Sécurité : On vérifie le token
     $expected_token = hash_hmac('sha256', $order_id . $order_info['total'], $this->config->get('payment_lodin_client_secret'));
     
     if (!isset($this->request->get['token']) || !hash_equals($expected_token, $this->request->get['token'])) {
@@ -353,22 +353,22 @@ class Lodin extends \Opencart\System\Engine\Controller {
         return;
     }
 
-    // 2. LA LOGIQUE : On vérifie le statut en base de données
     $completed_status_id = (int)$this->config->get('payment_lodin_completed_status_id');
 
+    // ✅ Dans les deux cas on vide la session → nouveau order à la prochaine commande
+    $this->cart->clear();
+    unset($this->session->data['order_id']);
+
     if ((int)$order_info['order_status_id'] === $completed_status_id) {
-        // Le paiement est OK (confirmé par le webhook)
-        $this->cart->clear();
-        unset($this->session->data['order_id']);
         $this->response->redirect($this->url->link('checkout/success', '', true));
     } else {
-        // Le paiement n'est pas OK (annulé, échoué ou en attente)
         $this->response->redirect($this->url->link('checkout/failure', '', true));
     }
 }
 private function isEuroCurrency(): bool {
-    $currency_code = $this->session->data['currency'] 
-        ?? $this->config->get('config_currency');
-    return strtoupper((string)$currency_code) === 'EUR';
+    $admin_currency  = strtoupper((string)$this->config->get('config_currency'));
+    $session_currency = strtoupper((string)($this->session->data['currency'] ?? $admin_currency));
+    
+    return $admin_currency === 'EUR' && $session_currency === 'EUR';
 }
 }

@@ -244,7 +244,7 @@ class Lodin extends \Opencart\System\Engine\Controller {
             'Payment failed via Lodin RTP: ' . $error_message,
             false
         );
-        
+    
         $this->log->write('Order ' . $order_id . ' marked as failed');
     }
     

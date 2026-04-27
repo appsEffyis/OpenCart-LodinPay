@@ -3,7 +3,7 @@ namespace Opencart\Catalog\Controller\Extension\Lodin\Payment;
 
 class Lodin extends \Opencart\System\Engine\Controller {
     
-    const RTP_API_URL = 'https://api-preprod.lodinpay.com/merchant-service/extensions/pay/rtp';
+    const RTP_API_URL = 'https://api.lodinpay.com/merchant-service/extensions/pay/rtp';
     
     public function index(): string {
         $this->load->language('extension/lodin/payment/lodin');
@@ -244,7 +244,7 @@ class Lodin extends \Opencart\System\Engine\Controller {
             'Payment failed via Lodin RTP: ' . $error_message,
             false
         );
-    
+        
         $this->log->write('Order ' . $order_id . ' marked as failed');
     }
     
@@ -367,9 +367,8 @@ class Lodin extends \Opencart\System\Engine\Controller {
     }
 }
 private function isEuroCurrency(): bool {
-    $admin_currency  = strtoupper((string)$this->config->get('config_currency'));
-    $session_currency = strtoupper((string)($this->session->data['currency'] ?? $admin_currency));
-    
-    return $admin_currency === 'EUR' && $session_currency === 'EUR';
+    $currency_code = $this->session->data['currency'] 
+        ?? $this->config->get('config_currency');
+    return strtoupper((string)$currency_code) === 'EUR';
 }
 }
